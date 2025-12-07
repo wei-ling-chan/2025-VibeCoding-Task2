@@ -60,8 +60,9 @@
             width: 100%;
             max-width: 1200px;
             margin: 0 auto;
-            padding-left: 1.5rem;
-            padding-right: 1.5rem;
+            /* 手機版 padding 稍微縮小，避免 320px 時內容過於擠壓 */
+            padding-left: 1rem;
+            padding-right: 1rem;
         }
 
         /* 區塊通用設定 */
@@ -82,7 +83,7 @@
 
 
         /* CSS:HEADER-START */
-        /* 導覽列 */
+        /* 導覽列 - 手機優先策略：預設允許換行 */
         .site-header {
             position: sticky;
             top: 0;
@@ -90,32 +91,42 @@
             background-color: rgba(15, 23, 42, 0.95);
             backdrop-filter: blur(8px);
             border-bottom: 1px solid rgba(255,255,255,0.1);
-            height: var(--header-height);
+            /* 改用 min-height 與 auto，適應手機版換行後的高度增加 */
+            min-height: var(--header-height);
+            height: auto;
             display: flex;
             align-items: center;
+            padding: 0.5rem 0;
         }
 
         .nav-container {
             display: flex;
-            justify-content: space-between;
+            /* 關鍵修正：允許換行，避免 320px 寬度爆炸 */
+            flex-wrap: wrap;
+            justify-content: center; /* 手機版置中 */
             align-items: center;
+            gap: 1rem; /* Logo 與選單之間的間距 */
         }
 
         .site-logo {
             font-weight: 700;
             font-size: 1.25rem;
             color: var(--text-main);
+            white-space: nowrap; /* Logo 文字不折行 */
         }
 
         .nav {
             display: flex;
-            gap: 1rem;
+            /* 關鍵修正：允許選單項目換行 */
+            flex-wrap: wrap;
+            gap: 0.5rem; /* 手機版間距縮小 */
+            justify-content: center;
         }
 
         .nav-link {
             color: var(--text-muted);
             font-size: 0.9rem;
-            padding: 0.5rem;
+            padding: 0.25rem 0.5rem;
         }
 
         .nav-link:hover {
@@ -137,10 +148,12 @@
         }
 
         .hero-title {
-            font-size: 2.5rem;
+            /* 手機版字體稍微縮小，確保不撐破 320px */
+            font-size: 2rem;
             font-weight: 800;
             margin-bottom: 1rem;
             line-height: 1.2;
+            word-break: break-word; /* 防止長單字撐破 */
         }
 
         .hero-text {
@@ -196,6 +209,7 @@
         }
         .contact-item {
             margin-bottom: 1rem;
+            word-break: break-all; /* 防止長 URL 撐破手機寬度 */
         }
         .contact-link {
             font-size: 1.1rem;
@@ -217,20 +231,37 @@
 
         /* CSS:RWD-START */
         @media (min-width: 768px) {
+            .container {
+                padding-left: 1.5rem;
+                padding-right: 1.5rem;
+            }
+
+            .site-header {
+                height: var(--header-height); /* 桌面版還原固定高度 */
+                padding: 0;
+            }
+
+            .nav-container {
+                justify-content: space-between; /* 桌面版左右分佈 */
+                flex-wrap: nowrap; /* 桌面版不換行 */
+            }
+
+            .nav {
+                flex-wrap: nowrap;
+                gap: 1.5rem; /* 桌面版間距加大 */
+            }
+
+            .nav-link {
+                font-size: 1rem;
+                padding: 0.5rem;
+            }
+
             .section-title {
                 font-size: 2.5rem;
             }
 
             .hero-title {
                 font-size: 3.5rem;
-            }
-
-            .nav {
-                gap: 2rem;
-            }
-            
-            .nav-link {
-                font-size: 1rem;
             }
 
             /* 雙欄排版範例 - About */
